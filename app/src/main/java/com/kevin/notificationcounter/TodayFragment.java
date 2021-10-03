@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.kevin.notificationcounter.Adapters.NotificationAppView;
 import com.kevin.notificationcounter.Adapters.NotificationAppViewAdapter;
+import com.kevin.notificationcounter.customizers.MyMarkerView;
 import com.kevin.notificationcounter.models.DatabaseHelper;
 import com.kevin.notificationcounter.models.NotificationItemDao;
 
@@ -42,6 +44,7 @@ public class TodayFragment extends Fragment {
     private static final String SET_LABEL = "";
     private BarChart chart;
     int[] WeekNotCount = {0, 0, 0, 0, 0, 0, 0};
+    int[] WeekNotCountnotPremium = {0, 0, 0, 0, 0, 0, 0};
     private static final String[] DaysForChart = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     @Override
@@ -58,12 +61,12 @@ public class TodayFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View main = inflater.inflate(R.layout.fragment_today, container, false);
-        //View viewHeader = inflater.inflate(R.layout.list_header_day_count, null);
+//        View viewHeader = inflater.inflate(R.layout.list_header_day_count, null);
 
         ListView listView = (ListView) main.findViewById(R.id.list_view);
         chart = (BarChart) main.findViewById(R.id.chart1);
 
-        //listView.addHeaderView(viewHeader, null, false);
+//        listView.addHeaderView(viewHeader, null, false);
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -102,14 +105,14 @@ public class TodayFragment extends Fragment {
             totalCount += aList.Notifications;
         }
 
-        //TextView titleCounter = (TextView) getActivity().findViewById(R.id.title_counter);
-        //titleCounter.setText(Integer.toString(totalCount));
-        //TextView titleCounterSuffix = (TextView) getActivity().findViewById(R.id.title_counter_suffix);
-        //if (totalCount == 1) {
-        //    titleCounterSuffix.setText(R.string.title_counter_suffix_single);
-        //} else {
-        //    titleCounterSuffix.setText(R.string.title_counter_suffix_plural);
-        //}
+        TextView titleCounter = (TextView) getActivity().findViewById(R.id.title_counter);
+        titleCounter.setText(Integer.toString(totalCount));
+        TextView titleCounterSuffix = (TextView) getActivity().findViewById(R.id.title_counter_suffix);
+        if (totalCount == 1) {
+            titleCounterSuffix.setText(R.string.title_counter_suffix_single);
+        } else {
+            titleCounterSuffix.setText(R.string.title_counter_suffix_plural);
+        }
 
         Calendar calendar1 = Calendar.getInstance();
         int day = calendar1.get(Calendar.DAY_OF_WEEK);
@@ -164,18 +167,28 @@ public class TodayFragment extends Fragment {
         set1.setDrawValues(false);
 
         BarData data = new BarData(dataSets);
-        data.setBarWidth(0.3f);
+        data.setBarWidth(0.7f);
         chart.getDescription().setEnabled(false);
         chart.setDrawValueAboveBar(false);
         chart.setDrawGridBackground(false);
         chart.setDrawBarShadow(false);
         chart.setPinchZoom(false);
         chart.getLegend().setEnabled(false);
+        chart.setFitBars(true);
+        chart.setElevation(1f);
+        chart.setScaleEnabled(false);
+        chart.setVisibleXRangeMinimum(values.size());
+        IMarker marker = new MyMarkerView(chart.getContext(), R.layout.custom_marker_view);
+        chart.setMarker(marker);
+
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setAxisMinimum(0f);
+        xAxis.setSpaceMin(data.getBarWidth() / 2f);
+        xAxis.setSpaceMax(data.getBarWidth() / 2f);
+        xAxis.setAxisMinimum(-0.9f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float v, AxisBase axisBase) {
@@ -185,14 +198,16 @@ public class TodayFragment extends Fragment {
 
         YAxis axisLeft = chart.getAxisLeft();
         axisLeft.setEnabled(true);
-        axisLeft.setDrawGridLines(false);
+        axisLeft.setDrawGridLines(true);
 
         YAxis axisRight = chart.getAxisRight();
         axisRight.setEnabled(false);
+        axisRight.setAxisMinimum(0f);
+        axisLeft.setAxisMinimum(0f);
 
         data.setValueTextSize(12f);
         chart.setData(data);
-        chart.invalidate();
+        //chart.invalidate();
 
         NotificationAppViewAdapter adapter = new NotificationAppViewAdapter(getActivity(), list);
 

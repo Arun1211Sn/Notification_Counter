@@ -19,4 +19,6 @@
     <string name="notification_listener_service_explanation">"For the app. to work you need to enable the Notification Listener Service. Enable it now?"</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="premium">Premium</string>
+    <string name="notification_data_for_all_days">Notification data for all days</string>
 </resources>

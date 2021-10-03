@@ -3,6 +3,10 @@ package com.kevin.notificationcounter.Adapters;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.palette.graphics.Palette;
 
 import com.kevin.notificationcounter.R;
 
@@ -45,6 +51,7 @@ public class NotificationAppViewAdapter extends ArrayAdapter<NotificationAppView
             holder.appCount = (TextView) view.findViewById(R.id.app_count);
             holder.progressBar = (ProgressBar) view.findViewById(R.id.app_progress_bar);
             holder.imageView = (ImageView) view.findViewById(R.id.app_image);
+            holder.shadowview = (View) view.findViewById(R.id.shadowcolor);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -55,52 +62,20 @@ public class NotificationAppViewAdapter extends ArrayAdapter<NotificationAppView
         String str_appName = null;
         Drawable icon = null;
         try {
-            ApplicationInfo appInfo = packageManager.getApplicationInfo(nv.AppName, 0);
+            ApplicationInfo appInfo = packageManager.getApplicationInfo(nv.AppName, PackageManager.GET_META_DATA);
             str_appName = packageManager.getApplicationLabel(appInfo).toString();
             icon = packageManager.getApplicationIcon(appInfo);
+            holder.imageView.setImageDrawable(icon);
 
-            String packageName = getPackNameByAppName(nv.AppName);
+            Bitmap bitmap = drawableToBitmap(icon);
+            int color = getDominantColor(bitmap);
+            holder.shadowview.setBackgroundColor(color);
 
-            Drawable icon1 = mContext.getPackageManager().getApplicationIcon(nv.AppName);
-            holder.imageView.setImageDrawable(icon1);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             holder.imageView.setImageResource(R.drawable.android);
         }
-        if (nv.AppName.equals("com.whatsapp")){
-            holder.imageView.setImageResource(R.drawable.whatsapp_logo);
-            holder.appName.setText("Whatsapp");
-        }
-        else if (nv.AppName.equals("com.facebook.orca")) {
-            holder.imageView.setImageResource(R.drawable.facebook_logo);
-            holder.appName.setText("Facebook");
-        }
-        else if (nv.AppName.equals("com.facebook.katana")) {
-            holder.imageView.setImageResource(R.drawable.facebook_logo);
-            holder.appName.setText("Facebook");
-        }
-        else if (nv.AppName.equals("com.instagram.android")) {
-            holder.imageView.setImageResource(R.drawable.instagram);
-            holder.appName.setText("Instagram");
-        }
-        else if (nv.AppName.equals("com.twitter.android")){
-            holder.imageView.setImageResource(R.drawable.twitter);
-            holder.appName.setText("Twitter");
-        }
-        else if (nv.AppName.equals("com.snapchat.android")){
-            holder.imageView.setImageResource(R.drawable.snapchat);
-            holder.appName.setText("Snapchat");
-        }
-        else if (nv.AppName.equals("org.telegram.messenger")){
-            holder.imageView.setImageResource(R.drawable.telegram);
-            holder.appName.setText("Telegram");
-        }
-        else if (nv.AppName.equals("com.linkedin.android")) {
-            holder.imageView.setImageResource(R.drawable.linkedin);
-            holder.appName.setText("Linkedin");
-        }
-
-        else if (str_appName != null) holder.appName.setText(str_appName);
+        if (str_appName != null) holder.appName.setText(str_appName);
         else holder.appName.setText(nv.AppName);
         holder.appCount.setText(Integer.toString(nv.Notifications));
         holder.progressBar.setProgress((int) ((double) nv.Notifications / (double) nv.MaxNotifications * 100));
@@ -121,11 +96,39 @@ public class NotificationAppViewAdapter extends ArrayAdapter<NotificationAppView
 
         return packName;
     }
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    public static int getDominantColor(Bitmap bitmap) {
+        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
+        final int color = newBitmap.getPixel(0, 0);
+        newBitmap.recycle();
+        return color;
+    }
 
     private static class ViewHolder {
         TextView appName;
         TextView appCount;
         ProgressBar progressBar;
         ImageView imageView;
+        View shadowview;
     }
 }
