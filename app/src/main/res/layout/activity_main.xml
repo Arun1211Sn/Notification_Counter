@@ -53,12 +53,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <include layout="@layout/calenderview"
+    <include
         android:id="@+id/calendarView"
-        android:layout_height="wrap_content"
+        layout="@layout/calenderview"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="14dp"
-        android:layout_below="@id/header_title"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_title"
+        android:layout_marginHorizontal="20dp" />
     <!-- The main content view -->
     <FrameLayout
         android:id="@+id/frame_layout"

@@ -1,7 +1,9 @@
 package com.kevin.notificationcounter;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -47,6 +49,10 @@ public class TodayFragment extends Fragment {
     int[] WeekNotCountnotPremium = {0, 0, 0, 0, 0, 0, 0};
     private static final String[] DaysForChart = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
+    boolean premium = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +71,8 @@ public class TodayFragment extends Fragment {
 
         ListView listView = (ListView) main.findViewById(R.id.list_view);
         chart = (BarChart) main.findViewById(R.id.chart1);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("ProVersion", MODE_PRIVATE);
+        premium = prefs.getBoolean("premium", false);
 
 //        listView.addHeaderView(viewHeader, null, false);
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,98 +124,194 @@ public class TodayFragment extends Fragment {
 
         Calendar calendar1 = Calendar.getInstance();
         int day = calendar1.get(Calendar.DAY_OF_WEEK);
-        switch (day) {
-            case Calendar.SUNDAY:
-                for (int i = 0; i < WeekNotCount.length; i++) {
-                    WeekNotCount[i] = 0;
-                }
-                WeekNotCount[Calendar.SUNDAY-1] = totalCount;
-                break;
-            case Calendar.MONDAY:
-                // Current day is Monday
-                WeekNotCount[Calendar.MONDAY-1] = totalCount;
-                break;
-            case Calendar.TUESDAY:
-                // etc.
-                WeekNotCount[Calendar.TUESDAY-1] = totalCount;
-                break;
-            case Calendar.WEDNESDAY:
-                WeekNotCount[Calendar.WEDNESDAY-1] = totalCount;
-                // etc.
-                break;
-            case Calendar.THURSDAY:
-                WeekNotCount[Calendar.THURSDAY-1] = totalCount;
-                // etc.
-                break;
-            case Calendar.FRIDAY:
-                WeekNotCount[Calendar.FRIDAY-1] = totalCount;
-                // etc.
-                break;
-            case Calendar.SATURDAY:
-                WeekNotCount[Calendar.SATURDAY-1] = totalCount;
-                // etc.
-                break;
-        }
-
-        for (int i = 0; i < WeekNotCount.length; ++i) {
-            Log.i(TAG, "WeekNotCount: " + i + " count" + WeekNotCount[i]);
-        }
-
-        ArrayList<BarEntry> values = new ArrayList<>();
-        for (int i = 0; i < WeekNotCount.length; i++) {
-            float x = i;
-            float y = WeekNotCount[i];
-            values.add(new BarEntry(x, y));
-        }
-
-        BarDataSet set1 = new BarDataSet(values, SET_LABEL);
-
-        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        set1.setDrawValues(false);
-
-        BarData data = new BarData(dataSets);
-        data.setBarWidth(0.7f);
-        chart.getDescription().setEnabled(false);
-        chart.setDrawValueAboveBar(false);
-        chart.setDrawGridBackground(false);
-        chart.setDrawBarShadow(false);
-        chart.setPinchZoom(false);
-        chart.getLegend().setEnabled(false);
-        chart.setFitBars(true);
-        chart.setElevation(1f);
-        chart.setScaleEnabled(false);
-        chart.setVisibleXRangeMinimum(values.size());
-        IMarker marker = new MyMarkerView(chart.getContext(), R.layout.custom_marker_view);
-        chart.setMarker(marker);
-
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setSpaceMin(data.getBarWidth() / 2f);
-        xAxis.setSpaceMax(data.getBarWidth() / 2f);
-        xAxis.setAxisMinimum(-0.9f);
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float v, AxisBase axisBase) {
-                return DaysForChart[(int) v];
+        if (premium == false){
+            switch (day) {
+                case Calendar.SUNDAY:
+                    for (int i = 0; i < WeekNotCountnotPremium.length; i++) {
+                        WeekNotCountnotPremium[i] = 0;
+                    }
+                    WeekNotCountnotPremium[Calendar.SUNDAY-1] = totalCount;
+                    break;
+                case Calendar.MONDAY:
+                    // Current day is Monday
+                    WeekNotCountnotPremium[Calendar.MONDAY-1] = totalCount;
+                    break;
+                case Calendar.TUESDAY:
+                    // etc.
+                    WeekNotCountnotPremium[Calendar.TUESDAY-1] = totalCount;
+                    break;
+                case Calendar.WEDNESDAY:
+                    WeekNotCountnotPremium[Calendar.WEDNESDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.THURSDAY:
+                    WeekNotCountnotPremium[Calendar.SUNDAY-1] = 0;
+                    WeekNotCountnotPremium[Calendar.THURSDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.FRIDAY:
+                    WeekNotCountnotPremium[Calendar.MONDAY-1] = 0;
+                    WeekNotCountnotPremium[Calendar.FRIDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.SATURDAY:
+                    WeekNotCountnotPremium[Calendar.TUESDAY-1] = 0;
+                    WeekNotCountnotPremium[Calendar.SATURDAY-1] = totalCount;
+                    // etc.
+                    break;
             }
-        });
 
-        YAxis axisLeft = chart.getAxisLeft();
-        axisLeft.setEnabled(true);
-        axisLeft.setDrawGridLines(true);
+            for (int i = 0; i < WeekNotCountnotPremium.length; ++i) {
+                Log.i(TAG, "WeekNotCountNotPremium: " + i + " count" + WeekNotCountnotPremium[i]);
+            }
 
-        YAxis axisRight = chart.getAxisRight();
-        axisRight.setEnabled(false);
-        axisRight.setAxisMinimum(0f);
-        axisLeft.setAxisMinimum(0f);
+            ArrayList<BarEntry> values = new ArrayList<>();
+            for (int i = 0; i < WeekNotCountnotPremium.length; i++) {
+                float x = i;
+                float y = WeekNotCountnotPremium[i];
+                values.add(new BarEntry(x, y));
+            }
+            BarDataSet set1 = new BarDataSet(values, SET_LABEL);
 
-        data.setValueTextSize(12f);
-        chart.setData(data);
-        //chart.invalidate();
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+            set1.setDrawValues(false);
+
+            BarData data = new BarData(dataSets);
+            data.setBarWidth(0.7f);
+            chart.getDescription().setEnabled(false);
+            chart.setDrawValueAboveBar(false);
+            chart.setDrawGridBackground(false);
+            chart.setDrawBarShadow(false);
+            chart.setPinchZoom(false);
+            chart.getLegend().setEnabled(false);
+            chart.setFitBars(true);
+            chart.setElevation(1f);
+            chart.setScaleEnabled(false);
+            chart.setVisibleXRangeMinimum(values.size());
+            IMarker marker = new MyMarkerView(chart.getContext(), R.layout.custom_marker_view);
+            chart.setMarker(marker);
+
+
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            xAxis.setAxisMinimum(0f);
+            xAxis.setSpaceMin(data.getBarWidth() / 2f);
+            xAxis.setSpaceMax(data.getBarWidth() / 2f);
+            xAxis.setAxisMinimum(-0.9f);
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float v, AxisBase axisBase) {
+                    return DaysForChart[(int) v];
+                }
+            });
+
+            YAxis axisLeft = chart.getAxisLeft();
+            axisLeft.setEnabled(true);
+            axisLeft.setDrawGridLines(true);
+
+            YAxis axisRight = chart.getAxisRight();
+            axisRight.setEnabled(false);
+            axisRight.setAxisMinimum(0f);
+            axisLeft.setAxisMinimum(0f);
+
+            data.setValueTextSize(12f);
+            chart.setData(data);
+            //chart.invalidate();
+        }
+        else {
+            switch (day) {
+                case Calendar.SUNDAY:
+                    for (int i = 0; i < WeekNotCount.length; i++) {
+                        WeekNotCount[i] = 0;
+                    }
+                    WeekNotCount[Calendar.SUNDAY-1] = totalCount;
+                    break;
+                case Calendar.MONDAY:
+                    // Current day is Monday
+                    WeekNotCount[Calendar.MONDAY-1] = totalCount;
+                    break;
+                case Calendar.TUESDAY:
+                    // etc.
+                    WeekNotCount[Calendar.TUESDAY-1] = totalCount;
+                    break;
+                case Calendar.WEDNESDAY:
+                    WeekNotCount[Calendar.WEDNESDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.THURSDAY:
+                    WeekNotCount[Calendar.THURSDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.FRIDAY:
+                    WeekNotCount[Calendar.FRIDAY-1] = totalCount;
+                    // etc.
+                    break;
+                case Calendar.SATURDAY:
+                    WeekNotCount[Calendar.SATURDAY-1] = totalCount;
+                    // etc.
+                    break;
+            }
+            for (int i = 0; i < WeekNotCount.length; ++i) {
+                Log.i(TAG, "WeekNotCount: " + i + " count" + WeekNotCount[i]);
+            }
+
+            ArrayList<BarEntry> values = new ArrayList<>();
+            for (int i = 0; i < WeekNotCount.length; i++) {
+                float x = i;
+                float y = WeekNotCount[i];
+                values.add(new BarEntry(x, y));
+            }
+            BarDataSet set1 = new BarDataSet(values, SET_LABEL);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+            set1.setDrawValues(false);
+
+            BarData data = new BarData(dataSets);
+            data.setBarWidth(0.7f);
+            chart.getDescription().setEnabled(false);
+            chart.setDrawValueAboveBar(false);
+            chart.setDrawGridBackground(false);
+            chart.setDrawBarShadow(false);
+            chart.setPinchZoom(false);
+            chart.getLegend().setEnabled(false);
+            chart.setFitBars(true);
+            chart.setElevation(1f);
+            chart.setScaleEnabled(false);
+            chart.setVisibleXRangeMinimum(values.size());
+            IMarker marker = new MyMarkerView(chart.getContext(), R.layout.custom_marker_view);
+            chart.setMarker(marker);
+
+
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            xAxis.setAxisMinimum(0f);
+            xAxis.setSpaceMin(data.getBarWidth() / 2f);
+            xAxis.setSpaceMax(data.getBarWidth() / 2f);
+            xAxis.setAxisMinimum(-0.9f);
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float v, AxisBase axisBase) {
+                    return DaysForChart[(int) v];
+                }
+            });
+
+            YAxis axisLeft = chart.getAxisLeft();
+            axisLeft.setEnabled(true);
+            axisLeft.setDrawGridLines(true);
+
+            YAxis axisRight = chart.getAxisRight();
+            axisRight.setEnabled(false);
+            axisRight.setAxisMinimum(0f);
+            axisLeft.setAxisMinimum(0f);
+
+            data.setValueTextSize(12f);
+            chart.setData(data);
+            //chart.invalidate();
+        }
 
         NotificationAppViewAdapter adapter = new NotificationAppViewAdapter(getActivity(), list);
 

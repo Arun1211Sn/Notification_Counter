@@ -2,11 +2,21 @@ package com.kevin.notificationcounter;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import org.json.JSONException;
+
 public class ProFeature extends AppCompatActivity {
+
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
+    boolean premium = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +29,14 @@ public class ProFeature extends AppCompatActivity {
         // status bar is hidden, so hide that too if necessary.
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        pref = getSharedPreferences("ProVersion", MODE_PRIVATE);
+        editor = pref.edit();
+        editor.putBoolean("premium", false);
+        editor.commit(); // This line is IMPORTANT. If you miss this one its not gonna work!
+
+        premium = pref.getBoolean("premium", false);
+
     }
+
 }
