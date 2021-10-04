@@ -3,6 +3,7 @@ package com.kevin.notificationcounter;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,8 +36,10 @@ import com.kevin.notificationcounter.models.DatabaseHelper;
 import com.kevin.notificationcounter.models.NotificationItemDao;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -75,17 +79,17 @@ public class TodayFragment extends Fragment {
         premium = prefs.getBoolean("premium", false);
 
 //        listView.addHeaderView(viewHeader, null, false);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(getActivity(), AppDetail.class);
-//                NotificationAppView clickedApp = (NotificationAppView) adapterView.getAdapter().getItem(i);
-//                intent.putExtra(AppDetail.EXTRA_PACKAGENAME, clickedApp.AppName);
-//                intent.putExtra(AppDetail.EXTRA_INTERVALTYPE, AppDetail.FLAG_VIEW_DAILY);
-//                intent.putExtra(AppDetail.EXTRA_DATESTRING, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//                startActivity(intent);
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), AppDetail.class);
+                NotificationAppView clickedApp = (NotificationAppView) adapterView.getAdapter().getItem(i);
+                intent.putExtra(AppDetail.EXTRA_PACKAGENAME, clickedApp.AppName);
+                intent.putExtra(AppDetail.EXTRA_INTERVALTYPE, AppDetail.FLAG_VIEW_DAILY);
+                intent.putExtra(AppDetail.EXTRA_DATESTRING, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                startActivity(intent);
+            }
+        });
 
         return main;
     }
@@ -124,6 +128,8 @@ public class TodayFragment extends Fragment {
 
         Calendar calendar1 = Calendar.getInstance();
         int day = calendar1.get(Calendar.DAY_OF_WEEK);
+
+        //Check if premium or not
         if (premium == false){
             switch (day) {
                 case Calendar.SUNDAY:

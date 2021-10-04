@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotificationCounter">
         <activity
+            android:name=".AppDetail"
+            android:exported="true" />
+        <activity
             android:name=".ProFeature"
             android:exported="true" />
         <activity
@@ -26,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".Service.NotificationListener"
             android:enabled="true"

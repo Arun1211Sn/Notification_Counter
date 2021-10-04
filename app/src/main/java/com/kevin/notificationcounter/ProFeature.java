@@ -33,10 +33,17 @@ public class ProFeature extends AppCompatActivity {
         pref = getSharedPreferences("ProVersion", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("premium", false);
-        editor.commit(); // This line is IMPORTANT. If you miss this one its not gonna work!
-
+        editor.commit();
         premium = pref.getBoolean("premium", false);
 
     }
 
+    public void one_month_sub(View view) {
+    }
+
+    public void twelveMonthSub(View view) {
+    }
+
+    public void lifeTimeSub(View view) {
+    }
 }
