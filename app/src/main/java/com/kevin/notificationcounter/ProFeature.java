@@ -34,9 +34,9 @@ public class ProFeature extends AppCompatActivity {
         actionBar.hide();
 
         pref = getSharedPreferences("ProVersion", MODE_PRIVATE);
-        editor = pref.edit();
-        editor.putBoolean("premium", false);
-        editor.commit();
+        //editor = pref.edit();
+        //editor.putBoolean("premium", false);
+        //editor.commit();
         premium = pref.getBoolean("premium", false);
 
     }

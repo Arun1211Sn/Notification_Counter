@@ -1,9 +1,13 @@
 package com.kevin.notificationcounter;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +15,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.kevin.notificationcounter.Adapters.NotificationItemAdapter;
 import com.kevin.notificationcounter.models.Application;
@@ -55,6 +65,25 @@ public class AppDetail extends AppCompatActivity {
         setContentView(R.layout.activity_app_detail);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
         parseAdditionalData();
 
         ListView list = (ListView) findViewById(R.id.list_notification_items);
@@ -90,7 +119,11 @@ public class AppDetail extends AppCompatActivity {
         }
 
         appName.setText(strAppName != null ? strAppName : packageName);
-        if (icon != null) appImage.setImageDrawable(icon);
+        if (icon != null){
+            appImage.setImageDrawable(icon);
+            Bitmap bitmap = drawableToBitmap(icon);
+            int color = getDominantColor(bitmap);
+        }
 
         return header;
     }
@@ -111,6 +144,34 @@ public class AppDetail extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    public static int getDominantColor(Bitmap bitmap) {
+        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
+        final int color = newBitmap.getPixel(0, 0);
+        newBitmap.recycle();
+        return color;
     }
 
     public void onCheckboxClicked(View view) {

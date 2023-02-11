@@ -1,25 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="5dp"
+    android:id="@+id/header_layout"
+    android:paddingTop="10dp"
     tools:context=".AppDetail">
 
     <ImageView
         android:id="@+id/app_detail_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="5dp"
+        android:layout_marginRight="25dp"
+        android:layout_toStartOf="@id/app_detail_name"
         android:src="@drawable/ic_launcher_foreground"/>
 
     <TextView
         android:id="@+id/app_detail_name"
         android:text="Application Name"
-        android:textColor="#deffffff"
-        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/app_detail_image"
-        android:layout_toEndOf="@id/app_detail_image"/>
+        android:layout_centerInParent="true"/>
 
     <CheckBox
         android:id="@+id/app_detail_ignore"

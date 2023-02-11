@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notification Counter</string>
+    <string name="app_name">Notification Manager</string>
     <string name="pro_des">With Notificatio counter you can easily track notification received on your phone with tracking records</string>
     <string name="google_playstore">GOOGLE PLAYSTORE</string>
     <string name="cancel_subscription_at_any_time_in_google_playstore_except_lifetime_license">Cancel Subscription at any time in google playstore (except lifetime license)</string>

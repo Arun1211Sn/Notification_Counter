@@ -1,0 +1,171 @@
+{
+  "project_info": {
+    "project_number": "729360552103",
+    "firebase_url": "https://notificationcounterfirebase-default-rtdb.firebaseio.com",
+    "project_id": "notificationcounterfirebase",
+    "storage_bucket": "notificationcounterfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729360552103:android:d3c0f37cde26c1033c4b82",
+        "android_client_info": {
+          "package_name": "com.jaikeerthick.mynotifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNh2v8CA-5z3xKAUUwc78lKVo3HYz7_0"
+        },
+        {
+          "current_key": "AIzaSyC-Sfpv270Yf0vglyhOcq-n9p3DMv7rZJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729360552103:android:412288001c0219f23c4b82",
+        "android_client_info": {
+          "package_name": "com.kevin.handymantestarun1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNh2v8CA-5z3xKAUUwc78lKVo3HYz7_0"
+        },
+        {
+          "current_key": "AIzaSyC-Sfpv270Yf0vglyhOcq-n9p3DMv7rZJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729360552103:android:d1164ff8cbf1bd613c4b82",
+        "android_client_info": {
+          "package_name": "com.kevin.inappsubscriptiontest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNh2v8CA-5z3xKAUUwc78lKVo3HYz7_0"
+        },
+        {
+          "current_key": "AIzaSyC-Sfpv270Yf0vglyhOcq-n9p3DMv7rZJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729360552103:android:38cb3101d23db2ed3c4b82",
+        "android_client_info": {
+          "package_name": "com.kevin.notificationcounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNh2v8CA-5z3xKAUUwc78lKVo3HYz7_0"
+        },
+        {
+          "current_key": "AIzaSyC-Sfpv270Yf0vglyhOcq-n9p3DMv7rZJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729360552103:android:609ae356eba0cedc3c4b82",
+        "android_client_info": {
+          "package_name": "com.kevin.notificationcounterfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNh2v8CA-5z3xKAUUwc78lKVo3HYz7_0"
+        },
+        {
+          "current_key": "AIzaSyC-Sfpv270Yf0vglyhOcq-n9p3DMv7rZJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729360552103-elcn3ij12r4rup89ini5qim1fju3hu3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

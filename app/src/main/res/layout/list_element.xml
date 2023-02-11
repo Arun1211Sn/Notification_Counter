@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:elevation="0dp"
+    android:background="@color/Lightwhite"
     android:layout_margin="20dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardCornerRadius="14dp"
-        app:cardElevation="10dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginVertical="10dp">
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

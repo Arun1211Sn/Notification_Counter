@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/list_app_detail_el"
-    android:padding="6dp">
+    android:layout_marginTop="8dp"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/app_detail_message"
         android:text="Notification message"
         android:layout_width="0dp"
+        android:textColor="@color/grey"
+        android:textSize="18sp"
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 
@@ -16,6 +19,8 @@
         android:id="@+id/app_detail_date"
         android:text="00:17"
         android:gravity="end"
+        android:textColor="@color/lightblack"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
